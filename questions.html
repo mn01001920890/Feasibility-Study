@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>الأسئلة</title>
+  <style>
+    body {
+      background-color: #cce4ff;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+    .question {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+    .option-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      color: #0070f3;
+      border: none;
+      border-radius: 1rem;
+      margin: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-btn {
+      margin-top: 2rem;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      border: none;
+      font-weight: bold;
+      background-color: white;
+      color: #0070f3;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="questionTitle">السؤال</h2>
+  <div id="questionBox" class="question"></div>
+  <div id="optionsBox"></div>
+  <div id="result" class="result"></div>
+  <button class="nav-btn" onclick="prevQuestion()">⬅ السابق</button>
+  <button class="nav-btn" onclick="nextQuestion()">التالي ➡</button>
+  <br/><br/>
+  <button class="nav-btn" onclick="window.location.href='index.html'">العودة للرئيسية</button>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const chapter = urlParams.get('chapter');
+    const type = urlParams.get('type');
+
+    const questionsData = {
+      chapter1: {
+        theory: [
+          { q: "العناصر الانتقالية هي العناصر التي تمتلئ فيها الأفلاك:", options: ["s", "p", "d", "f"], correct: "d" },
+          { q: "أي من العناصر التالية لا يعتبر من العناصر الانتقالية؟", options: ["الحديد", "النحاس", "الزنك", "الكروم"], correct: "الزنك" },
+          { q: "تتميز العناصر الانتقالية بأنها:", options: ["غازات خاملة", "فلزات نشطة", "لا فلزات", "أشباه فلزات"], correct: "فلزات نشطة" },
+          { q: "التوزيع الإلكتروني للعنصر Cr هو:", options: ["[Ar] 3d4 4s2", "[Ar] 3d5 4s1", "[Ar] 3d6 4s0", "[Ar] 3d3 4s3"], correct: "[Ar] 3d5 4s1" },
+          { q: "أي من العناصر التالية له أكبر عدد من حالات التأكسد؟", options: ["الحديد", "المنجنيز", "النحاس", "الكروم"], correct: "المنجنيز" }
+        ],
+        practical: [
+          { q: "عدد الإلكترونات المفردة في ذرة Mn (Z=25):", options: ["3", "4", "5", "6"], correct: "5" },
+          { q: "عدد الإلكترونات المفردة في Fe²⁺ (Z=26):", options: ["2", "4", "5", "6"], correct: "4" },
+          { q: "عدد الإلكترونات المفردة في Co²⁺ (Z=27):", options: ["1", "2", "3", "4"], correct: "3" },
+          { q: "عدد الإلكترونات المفردة في Ni²⁺ (Z=28):", options: ["0", "1", "2", "3"], correct: "2" },
+          { q: "عدد الإلكترونات المفردة في Cu²⁺ (Z=29):", options: ["0", "1", "2", "3"], correct: "1" }
+        ]
+      }
+    };
+
+    const questions = questionsData[chapter]?.[type] || [];
+    let current = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      if (current >= questions.length) {
+        document.getElementById("questionBox").innerText = "تم الانتهاء من جميع الأسئلة 🎉";
+        document.getElementById("optionsBox").innerHTML = "";
+        document.getElementById("result").innerText = "";
+        return;
+      }
+
+      const q = questions[current];
+      document.getElementById("questionBox").innerText = q.q;
+      document.getElementById("result").innerText = "";
+      answered = false;
+
+      const optionsHTML = q.options.map(opt => 
+        `<button class="option-btn" onclick="selectAnswer('${opt}')">${opt}</button>`
+      ).join("");
+      document.getElementById("optionsBox").innerHTML = optionsHTML;
+    }
+
+    function selectAnswer(option) {
+      if (answered) return;
+      const correct = questions[current].correct;
+      document.getElementById("result").innerText = 
+        option === correct ? "✔️ إجابة صحيحة" : `❌ إجابة خاطئة، الإجابة الصحيحة: ${correct}`;
+      answered = true;
+    }
+
+    function nextQuestion() {
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      }
+    }
+
+    function prevQuestion() {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      }
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
