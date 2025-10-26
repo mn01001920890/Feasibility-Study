@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Protection & Nano Ceramic Project</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f6fa;
+      color: #333;
+      direction: ltr;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px;
+      background-color: #1e3a8a;
+      color: white;
+      padding: 20px;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+      left: 0;
+      z-index: 10;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #3b82f6;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-menu {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .nav-link:hover {
+      background-color: #3b82f6;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      transform: translateX(5px);
+      border-left: 3px solid #fbbf24;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 300px;
+      padding: 40px;
+      flex: 1;
+    }
+
+    .header {
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      padding: 40px 20px;
+      border-radius: 15px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+    }
+
+    .project-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .project-subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* Content Section */
+    .content-section {
+      background: #fff;
+      padding: 45px 50px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      line-height: 1.9;
+      font-size: 18px;
+    }
+
+    .content-section h2 {
+      color: #1e3a8a;
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 35px;
+      position: relative;
+    }
+
+    .content-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, #1e3a8a, #fbbf24);
+      border-radius: 2px;
+    }
+
+    .content-section p {
+      margin-bottom: 25px;
+      text-align: justify;
+      color: #444;
+    }
+
+    .content-section strong {
+      color: #1e3a8a;
+    }
+
+    ul {
+      margin-left: 25px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #1e3a8a;
+      color: white;
+      font-weight: 600;
+    }
+
+    td {
+      background: #f9fafb;
+    }
+
+    .thanks-section {
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 40px;
+      border-left: 6px solid #1e3a8a;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+      .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <img src="logo.png" alt="Company Logo" class="logo">
+      </div>
+      <ul class="nav-menu">
+        <li><a href="summary.html" class="nav-link">Executive Summary</a></li>
+        <li><a href="marketstudy.html" class="nav-link">Marketing Feasibility Study</a></li>
+        <li><a href="technical.html" class="nav-link">Technical Feasibility Study</a></li>
+        <li><a href="organizestudy.html" class="nav-link">Legal & Regulatory Feasibility Study</a></li>
+        <li><a href="financestudy.html" class="nav-link">Financial Feasibility Study</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <h1 class="project-title">Car Protection & Nano Ceramic Project</h1>
+        <p class="project-subtitle">Advanced Solutions for Car Protection with Nano Ceramic Technology</p>
+      </header>
+
+      <section class="content-section">
+        <h2>Project Identification & Description</h2>
+
+        <p><strong>Project Title and Sector:</strong><br>
+          Title: <em>Car Protection & Nano Ceramic Project</em><br>
+          Sector: Automotive Services – Car Protection, Paint Protection Film (PPF), and Nano Ceramic Coating.
+        </p>
+
+        <p><strong>Problem / Need Addressed by the Project:</strong></p>
+        <ul>
+          <li>Lack of high-end nano ceramic and PPF services tailored to the needs of luxury car owners.</li>
+          <li>Inefficient customer experience in existing workshops that lack modern standards.</li>
+          <li>Need for advanced protective solutions for car paint and interior under harsh weather conditions.</li>
+          <li>Gap in trust and quality control among mid-tier providers, creating demand for standardized service.</li>
+        </ul>
+
+        <p><strong>Objectives:</strong></p>
+        <ul>
+          <li>To establish a premium car protection center offering high-quality certified materials.</li>
+          <li>To build a trusted brand in Riyadh known for reliability, innovation, and customer satisfaction.</li>
+          <li>To introduce modern techniques and technologies in nano ceramic and PPF applications.</li>
+          <li>To capture a significant market share of the luxury car segment in Eastern Riyadh.</li>
+        </ul>
+
+        <p><strong>Location and Scale of Operations:</strong><br>
+          Location: Riyadh, Kingdom of Saudi Arabia – between Al Moonsiyah and Qurtubah districts.<br><br>
+          Operational Scale:
+        </p>
+        <ul>
+          <li>Fully equipped workshop designed for 4–6 simultaneous car services.</li>
+          <li>Services include: Nano Ceramic Coating, PPF, Window Tinting, Interior Protection.</li>
+          <li>Targeting mid- to high-income car owners, luxury car showrooms, and ride-hailing company fleets.</li>
+        </ul>
+
+        <p><strong>SWOT Analysis:</strong></p>
+        <table>
+          <tr>
+            <th>Strengths</th>
+            <th>Weaknesses</th>
+          </tr>
+          <tr>
+            <td>
+              • Strategic location near affluent neighborhoods.<br>
+              • High-quality imported materials (e.g., premium ceramic coating brands).<br>
+              • Skilled technicians and strong brand identity.
+            </td>
+            <td>
+              • High initial cost of imported materials.<br>
+              • Limited brand awareness during the early stage.<br>
+              • Dependence on customer education about ceramic/PPF benefits.
+            </td>
+          </tr>
+          <tr>
+            <th>Opportunities</th>
+            <th>Threats</th>
+          </tr>
+          <tr>
+            <td>
+              • Increasing number of luxury cars in Riyadh.<br>
+              • Government support for SME automotive services.<br>
+              • Expansion potential to other cities like Jeddah and Dammam.
+            </td>
+            <td>
+              • Strong competition from established brands.<br>
+              • Possible fluctuation in import regulations.<br>
+              • Economic downturns affecting discretionary spending.
+            </td>
+          </tr>
+        </table>
+
+        <div class="thanks-section">
+          <p><strong>Acknowledgments:</strong> We extend our sincere thanks to the doctor for the valuable scientific guidance, and to all contributors for their cooperation in providing data essential for the success of this project.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    document.addEventListener("click", function (e) {
+      const sidebar = document.getElementById("sidebar");
+      const menuToggle = document.querySelector(".menu-toggle");
+      if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+        sidebar.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
